@@ -8,17 +8,15 @@
 </div>
 </template>
 <script>
-import axios from "axios";
+import { getBanner } from "@/request/api/home.js"
 import { reactive,onMounted } from "vue";
-export default {
+export default{
   setup() {
-    const state = reactive({images:[
-        'https://fastly.jsdelivr.net/npm/@vant/assets/apple-1.jpeg',
-        'https://fastly.jsdelivr.net/npm/@vant/assets/apple-2.jpeg',
-        ]});
-    onMounted(()=>{
-        axios.get('http://localhost:3000/banner?type=2').then((res)=>{
-                state.images = res.data.banners})
+    const state = reactive({images:['','']});
+    //异步请求
+    onMounted(async ()=>{
+         let res = await getBanner();
+         state.images = res.data.banners;     
     })
     return { state };
   },
